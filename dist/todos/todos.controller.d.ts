@@ -1,5 +1,12 @@
+import { TodosService } from './todos.service';
 export declare class TodosController {
-    getTodos(): any[];
+    private readonly todosService;
+    constructor(todosService: TodosService);
+    getTodos(): {
+        id: number;
+        title: string;
+        description: string;
+    }[];
     getOneTodo(): {};
     createTodos(): {};
     updateTodos(): {};

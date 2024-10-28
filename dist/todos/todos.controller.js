@@ -11,9 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TodosController = void 0;
 const common_1 = require("@nestjs/common");
+const todos_service_1 = require("./todos.service");
 let TodosController = class TodosController {
+    constructor(todosService) {
+        this.todosService = todosService;
+    }
     getTodos() {
-        return [];
+        return this.todosService.getTodos();
     }
     getOneTodo() {
         return {};
@@ -60,6 +64,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TodosController.prototype, "removeTodos", null);
 exports.TodosController = TodosController = __decorate([
-    (0, common_1.Controller)('todos')
+    (0, common_1.Controller)('todos'),
+    __metadata("design:paramtypes", [todos_service_1.TodosService])
 ], TodosController);
 //# sourceMappingURL=todos.controller.js.map
