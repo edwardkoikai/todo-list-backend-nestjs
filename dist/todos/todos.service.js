@@ -12,11 +12,40 @@ let TodosService = class TodosService {
     constructor() {
         this.todos = [
             { id: 0, title: 'Monday', description: 'Personalized projects' },
-            { id: 0, title: 'Tuesday', description: 'House Chores' }
+            { id: 1, title: 'Tuesday', description: 'House Chores' }
         ];
     }
     getTodos() {
         return this.todos;
+    }
+    getTodo(id) {
+        const todo = this.todos.find((todo) => todo.id == id);
+        if (!todo) {
+            throw new common_1.NotFoundException;
+        }
+        return todo;
+    }
+    createTodo(createTodoDto) {
+        const newTodo = {
+            ...createTodoDto,
+            id: Date.now()
+        };
+        this.todos.push(newTodo);
+        return newTodo;
+    }
+    updateTodo(id, updateTodoDto) {
+        this.todos = this.todos.map((todo) => {
+            if (todo.id == id) {
+                return { ...todo, ...updateTodoDto };
+            }
+            return todo;
+        });
+        return this.getTodo(id);
+    }
+    removeTodo(id) {
+        const toberemoved = this.getTodo(id);
+        this.todos = this.todos.filter((todo) => todo.id !== id);
+        return toberemoved;
     }
 };
 exports.TodosService = TodosService;

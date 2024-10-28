@@ -8,10 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TodosController = void 0;
 const common_1 = require("@nestjs/common");
 const todos_service_1 = require("./todos.service");
+const create_Todo_dto_1 = require("./Dto/create-Todo.dto");
+const updateTodo_dto_1 = require("./Dto/updateTodo.dto");
 let TodosController = class TodosController {
     constructor(todosService) {
         this.todosService = todosService;
@@ -19,17 +24,22 @@ let TodosController = class TodosController {
     getTodos() {
         return this.todosService.getTodos();
     }
-    getOneTodo() {
-        return {};
+    getOneTodo(id) {
+        try {
+            return this.todosService.getTodo(id);
+        }
+        catch (err) {
+            throw new common_1.NotFoundException;
+        }
     }
-    createTodos() {
-        return {};
+    createTodos(createTodoDto) {
+        return this.todosService.createTodo(createTodoDto);
     }
-    updateTodos() {
-        return {};
+    updateTodo(id, updateTodoDto) {
+        return this.todosService.updateTodo(id, updateTodoDto);
     }
-    removeTodos() {
-        return {};
+    removeTodo(id) {
+        return this.todosService.removeTodo(id);
     }
 };
 exports.TodosController = TodosController;
@@ -41,28 +51,33 @@ __decorate([
 ], TodosController.prototype, "getTodos", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], TodosController.prototype, "getOneTodo", null);
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [create_Todo_dto_1.createTodoDto]),
     __metadata("design:returntype", void 0)
 ], TodosController.prototype, "createTodos", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, updateTodo_dto_1.updateTodoDto]),
     __metadata("design:returntype", void 0)
-], TodosController.prototype, "updateTodos", null);
+], TodosController.prototype, "updateTodo", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], TodosController.prototype, "removeTodos", null);
+], TodosController.prototype, "removeTodo", null);
 exports.TodosController = TodosController = __decorate([
     (0, common_1.Controller)('todos'),
     __metadata("design:paramtypes", [todos_service_1.TodosService])
